@@ -1,0 +1,17 @@
+*~
+*.a
+*.bak
+*.o
+*.old
+*.orig
+*.out
+*.pyc
+*.pyo
+*.so
+*.swp
+cscope.*
+tags
+minishell
+.VScode
+.vscode
+tests/tokens/test_tokenize

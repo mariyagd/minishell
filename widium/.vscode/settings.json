@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "minishell.h": "c",
+        "token.h": "c",
+        "chrono": "c",
+        "variant": "c",
+        "algorithm": "c",
+        "execution.h": "c",
+        "source_location": "c",
+        "typeinfo": "c"
+    }
+}
