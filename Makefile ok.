@@ -2,7 +2,6 @@ SRCS	= main.c\
 		  env_var.c\
 		  env_key.c\
 		  handler_ctr_c.c\
-		  handler_ctr_d.c\
 		  init_struc_env.c\
 		  launch_setup.c\
 		  complicated_split.c\
