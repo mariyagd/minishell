@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:26:32 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/10 15:09:17 by mmakarov         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:25:42 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -63,5 +63,18 @@ void	set_id(t_token **head, t_token *token)
 		token->id = DOLLAR;
 	else
 		token->id = WORD;
+	return ;
+}
+
+void	reset_token_id(t_token **head)
+{
+	t_token	*token;
+
+	token = *head;
+	while (token)
+	{
+		set_id(head, token);
+		token = token->next;
+	}
 	return ;
 }

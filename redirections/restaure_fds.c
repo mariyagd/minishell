@@ -6,7 +6,7 @@
 /*   By: mmakarov <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 14:22:32 by mmakarov          #+#    #+#             */
-/*   Updated: 2023/06/16 14:01:31 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/16 19:12:19 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -38,8 +38,6 @@ void	delete_here_doc(int i)
 
 void	restaure_fds(t_cmd *cmd, int i)
 {
-	if (!cmd)
-		return ;
 	if (cmd->save_fdout != -1)
 	{
 		dup2(cmd->save_fdout, STDOUT_FILENO);

@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 09:45:55 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/16 14:04:36 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/16 19:13:59 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -106,8 +106,6 @@ void	keyword_is_unquoted(char *key_word, int fd)
 		if (!write1(token, key_word, fd))
 			break ;
 	}
-	rl_on_new_line();
-	rl_replace_line("", 0);
 	free(token->content);
 	free(token);
 }

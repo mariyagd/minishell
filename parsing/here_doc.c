@@ -6,7 +6,7 @@
 /*   By: mmakarov <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:53:08 by mmakarov          #+#    #+#             */
-/*   Updated: 2023/06/16 13:49:39 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/16 20:40:47 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -73,7 +73,7 @@ static int	heredoc_child_process(char *key_word, int j)
 	if (WIFEXITED(status))
 	{
 		g_shell->exit_status = WEXITSTATUS(status);
-		g_shell->heredoc_flag = WEXITSTATUS(status);
+//		g_shell->heredoc_flag = WEXITSTATUS(status);
 	}
 	return (g_shell->exit_status);
 }

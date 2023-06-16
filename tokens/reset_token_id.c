@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 16:54:02 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/16 17:05:02 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/16 20:24:54 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -33,7 +33,7 @@ static int	check_for_heredoc2(t_token **head, int pos)
 	return (0);
 }
 
-static void	reset_id(t_token **head, t_token *token)
+static void	set_id2(t_token **head, t_token *token)
 {
 	int	res;
 
@@ -58,14 +58,14 @@ static void	reset_id(t_token **head, t_token *token)
 	return ;
 }
 
-void	reset_token_id(t_token **head)
+void	set_id_for_expansion(t_token **head)
 {
 	t_token	*token;
 
 	token = *head;
 	while (token)
 	{
-		reset_id(head, token);
+		set_id2(head, token);
 		token = token->next;
 	}
 	return ;
