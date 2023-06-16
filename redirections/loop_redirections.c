@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:19:00 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/10 14:23:28 by mmakarov         ###   ########.fr       */
+/*   Updated: 2023/06/16 17:12:00 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -44,7 +44,7 @@ int	ambiguous_redirections(t_cmd *cmd, int i)
 		ft_strncmp(cmd->redir[i], "<", 2) == 0) && \
 			!cmd->redir[i + 1])
 	{
-		ft_dprintf(2, "minishell: ambiguous redirect\n");
+//		ft_dprintf(2, "minishell: ambiguous redirect\n");
 		g_shell->exit_status = 1;
 		return (1);
 	}

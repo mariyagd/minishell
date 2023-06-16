@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:02:52 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/10 18:00:56 by mmakarov         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:33:05 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -45,7 +45,6 @@ static void	pipex_get_exit_status(t_cmd **head)
 	else if (WIFSIGNALED(last->status))
 	{
 		print_signal_message(WTERMSIG(last->status), &flag);
-		if (WTERMSIG(last->status) == SIGINT)
 		g_shell->exit_status = WTERMSIG(last->status) + 128;
 	}
 	kill_zombies(head, flag);

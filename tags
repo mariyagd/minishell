@@ -83,6 +83,7 @@ check_execve	execution/exec_bin.c	/^static void	check_execve(t_cmd *cmd)$/;"	f	f
 check_exit_arguments	builtins/exit.c	/^static int	check_exit_arguments(t_cmd *cmd)$/;"	f	file:
 check_fdin_redir	execution/pipex_helper.c	/^static int	check_fdin_redir(t_cmd *cmd)$/;"	f	file:
 check_for_heredoc	tokens/token_routine_set_id.c	/^int	check_for_heredoc(t_token **head, int pos)$/;"	f
+check_for_heredoc1	tokens/reset_token_id.c	/^static int	check_for_heredoc1(t_token **head, int pos)$/;"	f	file:
 check_for_malloc_error	main.c	/^void	check_for_malloc_error(t_cmd **head)$/;"	f
 check_heredoc_dollar	parsing/here_doc_unquoted_keyword.c	/^static int	check_heredoc_dollar(t_token *token, int i)$/;"	f	file:
 check_if_quoted_keyword	parsing/here_doc_check_if_quoted_keyword.c	/^static int	check_if_quoted_keyword(char *key_word)$/;"	f	file:
@@ -115,10 +116,12 @@ count_nb_cmds	execution/execution.c	/^static int	count_nb_cmds(t_cmd **head)$/;"
 create_cmd	command_struct/init_cmd_cmd.c	/^int	create_cmd(t_token **token, t_cmd *cmd)$/;"	f
 create_cmd_linked_list	command_struct/init_cmd.c	/^static void	create_cmd_linked_list(t_token **token, t_cmd *head)$/;"	f	file:
 create_heredoc_name	parsing/here_doc.c	/^static char	*create_heredoc_name(int j)$/;"	f	file:
+create_new	global_variable/increment_shlvl.c	/^static t_env	*create_new(void)$/;"	f	file:
 create_nextline	libft/get_next_line/get_next_line.c	/^char	*create_nextline(char *result, char *line)$/;"	f
 create_redir	command_struct/init_cmd_redir.c	/^int	create_redir(t_token **token, t_cmd *cmd)$/;"	f
 create_result	libft/get_next_line/get_next_line.c	/^char	*create_result(char *line)$/;"	f
-create_token	parsing/here_doc_quoted_keyword.c	/^static t_token *create_token(t_token *token, char *key_word)$/;"	f	file:
+create_shlvl	global_variable/increment_shlvl.c	/^static int	create_shlvl(void)$/;"	f	file:
+create_token	parsing/here_doc_quoted_keyword.c	/^static t_token	*create_token(t_token *token, char *key_word)$/;"	f	file:
 create_token_head	parsing/token_extraction.c	/^t_token	*create_token_head(char *line, int i, int len, int *flag)$/;"	f
 del	libft/libft/del.c	/^void	del(void *content)$/;"	f
 delete_all_heredocs	parsing/delete_all_heredocs.c	/^void	delete_all_heredocs(int nb)$/;"	f
@@ -346,6 +349,7 @@ res	minishell.h	/^	int					res;$/;"	m	struct:s_token
 res	minishell.h	/^	int				res;$/;"	m	struct:s_cmd
 reset_env_tab	execution/execution.c	/^static int	reset_env_tab(void)$/;"	f	file:
 reset_oldpwd	global_variable/init_global.c	/^void	reset_oldpwd(void)$/;"	f
+reset_token_id	tokens/reset_token_id.c	/^void	reset_token_id(t_token **head, t_token *token)$/;"	f
 restaure_fdin	redirections/restaure_fds.c	/^void	restaure_fdin(t_cmd *cmd)$/;"	f
 restaure_fdout	redirections/restaure_fds.c	/^void	restaure_fdout(t_cmd *cmd)$/;"	f
 restaure_fds	redirections/restaure_fds.c	/^void	restaure_fds(t_cmd *cmd, int i)$/;"	f
@@ -387,6 +391,6 @@ var_value_is_numeric	global_variable/increment_shlvl.c	/^static int	var_value_is
 var_value_not_numeric	global_variable/increment_shlvl.c	/^static int	var_value_not_numeric(t_env *env)$/;"	f	file:
 word_extraction	parsing/token_extraction.c	/^int	word_extraction(char *line, int ind)$/;"	f
 write1	parsing/here_doc_unquoted_keyword.c	/^static int	write1(t_token *token, char *key_word, int fd)$/;"	f	file:
-write2	parsing/here_doc_quoted_keyword.c	/^static	int	write2(char	*line, char *new_keyword, int fd)$/;"	f	file:
+write2	parsing/here_doc_quoted_keyword.c	/^static int	write2(char	*line, char *new_keyword, int fd)$/;"	f	file:
 write_in_heredoc	parsing/here_doc.c	/^static void	write_in_heredoc(char *key_word, int j)$/;"	f	file:
 write_in_heredoc_helper	parsing/here_doc_check_if_quoted_keyword.c	/^void	write_in_heredoc_helper(char *key_word, int fd)$/;"	f

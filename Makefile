@@ -6,7 +6,7 @@
 #    By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/08 12:23:37 by mdanchev          #+#    #+#              #
-#    Updated: 2023/06/16 12:03:02 by mdanchev         ###   lausanne.ch        #
+#    Updated: 2023/06/16 16:55:26 by mdanchev         ###   lausanne.ch        #
 #                                                                              #
 # **************************************************************************** #
 GREEN 		= \033[32;6m
@@ -34,6 +34,7 @@ SRCS		= main.c \
 			  signal_handler/pipex_handler.c \
 			  tokens/token_routine.c \
 			  tokens/token_routine_set_id.c \
+			  tokens/reset_token_id.c \
 			  tokens/token_routine_delete.c \
 			  parsing/parsing.c \
 			  parsing/syntax_errors.c\
