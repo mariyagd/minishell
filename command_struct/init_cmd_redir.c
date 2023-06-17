@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 09:37:00 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/10 14:02:56 by mmakarov         ###   ########.fr       */
+/*   Updated: 2023/06/17 10:56:46 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,9 +20,12 @@ static int	get_redir_size(t_token *ptr)
 	{
 		if (ptr->id == L_CHEVRON || ptr->id == R_CHEVRON || \
 				ptr->id == APPEND)
-			i = i + 2;
-		else if (ptr->id == HERE_DOC && ptr->next && ptr->next->id == KEY_WORD)
-			i = i + 2;
+		{
+			if (ptr->next && ptr->next->id == KEY_WORD)
+				i = i + 2;
+			else
+				i = i + 1;
+		}
 		else if (ptr->id == HERE_DOC)
 			i = i + 1;
 		ptr = ptr->next;
@@ -90,7 +93,10 @@ static int	copy_redir(t_token **token, t_cmd *cmd)
 				return (0);
 			i++;
 		}
-		ptr = ptr->next;
+		if (ptr->next)
+			ptr = ptr->next;
+		else
+			break ;
 	}
 	return (1);
 }

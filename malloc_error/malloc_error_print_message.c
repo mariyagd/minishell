@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:22:35 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/10 12:04:21 by mmakarov         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:55:52 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -26,6 +26,6 @@ void	error_message(char *s)
 
 void	error_message2(char *s1, char *s2)
 {
-	ft_dprintf(2, "minishell: %s %s\n", s1, s2);
+	ft_dprintf(2, "minishell: %s: %s\n", s1, s2);
 	g_shell->exit_status = 1;
 }

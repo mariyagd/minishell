@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:32:22 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/16 08:49:19 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/17 12:59:45 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -36,11 +36,34 @@ static int	change_i(t_cmd *cmd, int i)
 	while (cmd->cmd[1][i] == 32 || \
 			(cmd->cmd[1][i] >= 9 && cmd->cmd[1][i] <= 13))
 		i++;
-	if (cmd->cmd[1][i] == '-')
-		i++;
-	else if (cmd->cmd[1][i] == '+')
-		i++;
 	return (i);
+}
+
+static int	numeric_string(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	else if (ft_isdigit(str[i]) == 0)
+		return (0);
+	if (ft_isdigit(str[i]) == 1)
+	{
+		while (ft_isdigit(str[i]) == 1)
+			i++;
+		if (str[i] == '\0' || str[i] == 32 || \
+				(str[i] >= 9 && str[i] <= 13))
+		{
+			while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+				i++;
+			if (str[i] == '\0')
+				return (1);
+			else
+				return (0);
+		}
+	}
+	return (0);
 }
 
 static int	check_exit_arguments(t_cmd *cmd)
@@ -53,7 +76,7 @@ static int	check_exit_arguments(t_cmd *cmd)
 	if (size == 1)
 		return (0);
 	i = change_i(cmd, i);
-	if (is_numeric(&cmd->cmd[1][i]) && no_int_errors(&cmd->cmd[1][i]))
+	if (numeric_string(&cmd->cmd[1][i]) && no_int_errors(&cmd->cmd[1][i]))
 		first_argument_is_numeric(cmd, size);
 	else
 	{

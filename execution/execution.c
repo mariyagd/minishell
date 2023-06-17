@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:39:31 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/16 20:38:25 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/17 10:59:46 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -51,5 +51,4 @@ void	execution(t_cmd **head)
 		one_cmd(*head);
 	else
 		pipex(head);
-//	g_shell->heredoc_flag = 0;
 }

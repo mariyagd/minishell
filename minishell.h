@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 10:16:33 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/16 20:37:42 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/17 10:56:27 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ typedef struct s_shell
 	volatile int		exit_status;
 	int					error_exit;
 	char				**save_env;
-//	int					heredoc_flag;
 }	t_shell;
 
 extern t_shell	*g_shell;
@@ -222,8 +221,8 @@ void	error_message2(char *s1, char *s2);
 /* 		TOKEN EXTRACTION - TOKEN LINKED LIST (token_routine_.c) */
 t_token	*new_token(char *line, int start, int len);
 void	set_id(t_token **head, t_token *token);
-void	reset_token_id(t_token **head);
-void	set_id_for_expansion(t_token **head);
+void	set_id_after_expansion(t_token **head);
+void	set_id_before_expansion(t_token **head);
 int		token_linked_list(t_token **head, char *line, int start, int len);
 int		link_token(t_token **head, t_token *new);
 void	free_token(t_token **head);

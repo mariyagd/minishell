@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 14:08:47 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/16 20:43:12 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/17 10:57:17 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -64,7 +64,7 @@ static void	execute_one_bin(t_cmd *cmd)
 void	one_cmd(t_cmd *cmd)
 {
 	int	res;
-	
+
 	if (!cmd->cmd || cmd_is_builtin(cmd->cmd[0]))
 	{
 		res = make_redirections(cmd, 0);
@@ -78,8 +78,7 @@ void	one_cmd(t_cmd *cmd)
 	}
 	else
 	{
-//		if (g_shell->heredoc_flag == 0)
-			execute_one_bin(cmd);
+		execute_one_bin(cmd);
 		delete_here_doc(0);
 	}
 }

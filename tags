@@ -83,7 +83,6 @@ check_execve	execution/exec_bin.c	/^static void	check_execve(t_cmd *cmd)$/;"	f	f
 check_exit_arguments	builtins/exit.c	/^static int	check_exit_arguments(t_cmd *cmd)$/;"	f	file:
 check_fdin_redir	execution/pipex_helper.c	/^static int	check_fdin_redir(t_cmd *cmd)$/;"	f	file:
 check_for_heredoc	tokens/token_routine_set_id.c	/^int	check_for_heredoc(t_token **head, int pos)$/;"	f
-check_for_heredoc1	tokens/reset_token_id.c	/^static int	check_for_heredoc1(t_token **head, int pos)$/;"	f	file:
 check_for_malloc_error	main.c	/^void	check_for_malloc_error(t_cmd **head)$/;"	f
 check_heredoc_dollar	parsing/here_doc_unquoted_keyword.c	/^static int	check_heredoc_dollar(t_token *token, int i)$/;"	f	file:
 check_if_quoted_keyword	parsing/here_doc_check_if_quoted_keyword.c	/^static int	check_if_quoted_keyword(char *key_word)$/;"	f	file:
@@ -257,7 +256,6 @@ here_doc_handler	signal_handler/signal_handlers.c	/^void	here_doc_handler(int si
 here_doc_quote_removing	parsing/here_doc_quoted_keyword.c	/^int	here_doc_quote_removing(t_token *token, int pos)$/;"	f
 here_doc_signal_handler	signal_handler/signal_handlers.c	/^void	here_doc_signal_handler(void)$/;"	f
 heredoc_child_process	parsing/here_doc.c	/^static int	heredoc_child_process(char *key_word, int j)$/;"	f	file:
-heredoc_flag	minishell.h	/^	int					heredoc_flag;$/;"	m	struct:s_shell
 id	minishell.h	/^	int					id;$/;"	m	struct:s_token
 increment_shlvl	global_variable/increment_shlvl.c	/^int	increment_shlvl(void)$/;"	f
 init_cmd	command_struct/init_cmd.c	/^static t_cmd	*init_cmd(t_token **token)$/;"	f	file:
@@ -311,6 +309,7 @@ next	minishell.h	/^	struct s_env	*next;$/;"	m	struct:s_env	typeref:struct:s_env:
 next	minishell.h	/^	struct s_token		*next;$/;"	m	struct:s_token	typeref:struct:s_token::s_token
 no_int_errors	builtins/int_min_max.c	/^int	no_int_errors(char *str)$/;"	f
 not_within_squotes	parsing/expansion_dollar_conditions.c	/^int	not_within_squotes(t_token *curr, int pos)$/;"	f
+numeric_string	builtins/exit.c	/^static int	numeric_string(char *str)$/;"	f	file:
 one_cmd	execution/exec_one_cmd.c	/^void	one_cmd(t_cmd *cmd)$/;"	f
 parent_signal_handler	signal_handler/signal_handlers.c	/^void	parent_signal_handler(void)$/;"	f
 parsing	parsing/parsing.c	/^t_token	*parsing(char *line)$/;"	f
@@ -349,7 +348,6 @@ res	minishell.h	/^	int					res;$/;"	m	struct:s_token
 res	minishell.h	/^	int				res;$/;"	m	struct:s_cmd
 reset_env_tab	execution/execution.c	/^static int	reset_env_tab(void)$/;"	f	file:
 reset_oldpwd	global_variable/init_global.c	/^void	reset_oldpwd(void)$/;"	f
-reset_token_id	tokens/reset_token_id.c	/^void	reset_token_id(t_token **head, t_token *token)$/;"	f
 restaure_fdin	redirections/restaure_fds.c	/^void	restaure_fdin(t_cmd *cmd)$/;"	f
 restaure_fdout	redirections/restaure_fds.c	/^void	restaure_fdout(t_cmd *cmd)$/;"	f
 restaure_fds	redirections/restaure_fds.c	/^void	restaure_fds(t_cmd *cmd, int i)$/;"	f
@@ -364,6 +362,8 @@ save_fdout	minishell.h	/^	int				save_fdout;$/;"	m	struct:s_cmd
 search_path	execution/search_path_in_env_table.c	/^int	search_path(t_cmd *cmd, char **env)$/;"	f
 set_heredoc_id	parsing/here_doc_unquoted_keyword.c	/^static void	set_heredoc_id(t_token *token)$/;"	f	file:
 set_id	tokens/token_routine_set_id.c	/^void	set_id(t_token **head, t_token *token)$/;"	f
+set_id_after_expansion	tokens/token_routine_set_id.c	/^void	set_id_after_expansion(t_token **head)$/;"	f
+set_id_before_expansion	tokens/token_routine_set_id.c	/^void	set_id_before_expansion(t_token **head)$/;"	f
 set_id_expansion	tokens/token_routine_set_id.c	/^int	set_id_expansion(t_token *token)$/;"	f
 shell_no_env	global_variable/init_global.c	/^static int	shell_no_env(void)$/;"	f	file:
 size_echo_cmd	builtins/echo.c	/^static int	size_echo_cmd(char **s)$/;"	f	file:

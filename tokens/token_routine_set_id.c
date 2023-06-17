@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:26:32 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/16 20:25:42 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/17 10:58:30 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -66,15 +66,60 @@ void	set_id(t_token **head, t_token *token)
 	return ;
 }
 
-void	reset_token_id(t_token **head)
+void	set_id_after_expansion(t_token **head)
 {
 	t_token	*token;
 
 	token = *head;
 	while (token)
 	{
-		set_id(head, token);
-		token = token->next;
+		if (token->id == HERE_DOC || token->id == L_CHEVRON || \
+				token->id == R_CHEVRON || token->id == APPEND)
+		{
+			if (token->next != NULL)
+			{
+				token = token->next;
+				token->id = KEY_WORD;
+			}
+			else
+				break ;
+		}
+		else
+		{
+			if (token->next)
+				token = token->next;
+			else
+				break ;
+		}
+	}
+	return ;
+}
+
+void	set_id_before_expansion(t_token **head)
+{
+	t_token	*token;
+
+	token = *head;
+	while (token)
+	{
+		if (token->id == PIPELINE)
+			token = token->next;
+		else if (token->id == HERE_DOC)
+		{
+			token = token->next;
+			token->id = KEY_WORD;
+		}
+		else if (token->id == APPEND || token->id == R_CHEVRON || \
+				token->id == L_CHEVRON)
+		{
+			token = token->next;
+			token->id = set_id_expansion(token);
+		}
+		else
+		{
+			token->id = set_id_expansion(token);
+			token = token->next;
+		}
 	}
 	return ;
 }

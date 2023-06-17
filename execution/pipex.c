@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:02:52 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/16 20:41:26 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/17 10:59:07 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -84,7 +84,7 @@ void	pipex(t_cmd **head)
 	int		i;
 
 	i = 0;
-	if (!head || !*head /*|| g_shell->heredoc_flag == 1*/)
+	if (!head || !*head)
 		return ;
 	cmd = *head;
 	while (cmd)
