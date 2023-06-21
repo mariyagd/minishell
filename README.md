@@ -640,7 +640,9 @@ OUTPUT:
 </details>
 </details>
 
-- REDIRECTIONS
+<details><summary>
+
+## REDIRECTIONS
     - TEST 1: < fdin, no command
         
         INPUT:
@@ -1028,6 +1030,7 @@ OUTPUT:
         // should create a file called "bbbc"
         // exit status = 0
         ```
+</details>
         
 - AMBIGIOUS REDIRECTION
     - TEST 1:
