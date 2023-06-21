@@ -516,7 +516,8 @@
         OUTPUT:
         
         ```c
-        // should not create the file
+        // if ctrl +c -> should not create the file
+        // else if ctrl + d -> creates the file
         ```
         
 - REDIRECTIONS
@@ -536,6 +537,8 @@
         
         ```c
         minishell: file1 No such file or directory
+        
+        // exit status = 1
         ```
         
     - TEST 2: >, >>, fdout, no command
@@ -632,7 +635,7 @@
         ```
         
         ```c
-        cat file
+        cat file4
         ```
         
         OUTPUT:
@@ -673,8 +676,17 @@
         
         ```c
         rm -f file
+        ```
+        
+        ```c
         uname > file
+        ```
+        
+        ```c
         < file
+        ```
+        
+        ```c
         < file << EOF
         ```
         
@@ -691,6 +703,9 @@
         
         ```c
         rm -f file
+        ```
+        
+        ```c
         < file << eof
         ```
         
@@ -715,6 +730,9 @@
         
         ```c
         rm -f file
+        ```
+        
+        ```c
         < file << eof
         
         + ctrl  + c 
@@ -723,8 +741,9 @@
         OUTPUT:
         
         ```c
-        ^C // there is no message "file not found"
-        		// exit status is 1
+        ^C 
+        // there is no message "file not found"
+        // exit status is 1
         ```
         
     - TEST 11: combination of < , > and >>
@@ -733,14 +752,20 @@
         
         ```c
         rm -f file1 file2 file3
+        ```
+        
+        ```c
         ls > file1
+        ```
+        
+        ```c
         < file1 wc > file2 >> file3
         ```
         
         OUTPUT:
         
         ```c
-        // only file3 has the output
+        // only file3 has the output of the command wc
         ```
         
     - TEST 12: `\0`
@@ -790,13 +815,34 @@
         OUTPUT:
         
         ```c
-        minishell: : command not found
+        minishell: file: No such file or directory
         
-        //exit status = 127
-        // file is created!
+        // exit status = 1
+        // file is not created
         ```
         
-    - TEST 13: expansion
+    - TEST 15: `\0`
+        
+        INPUT:
+        
+        ```c
+        rm -f file
+        ```
+        
+        ```c
+         "" > file
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        minishell: : command not found
+        
+        // exit status = 127
+        // file is created
+        ```
+        
+    - TEST 16: expansion
         
         INPUT:
         
@@ -813,13 +859,17 @@
         // exit status = 0
         ```
         
-    - TEST 14: expansion
+    - TEST 17: expansion
         
         INPUT:
         
         ```c
         > $aaaa$bb"b"bb$ccc
+        ```
         
+        or
+        
+        ```c
         >> $aaaa$bb"b"bb$ccc
         ```
         
@@ -830,13 +880,17 @@
         // exit status = 0
         ```
         
-    - TEST 15: expansion
+    - TEST 18: expansion
         
         INPUT:
         
         ```c
         > $aaaa$bb"b"bb$cc'c'
+        ```
         
+        or
+        
+        ```c
         >> $aaaa$bb"b"bb$cc'c'
         ```
         
@@ -856,6 +910,12 @@
         ls < $a
         ```
         
+        or
+        
+        ```c
+        < $a ls
+        ```
+        
         OUTPUT:
         
         ```c
@@ -870,9 +930,18 @@
         
         ```c
         ls < $a
+        ```
         
+        or
+        
+        ```c
         ls > $a
         
+        ```
+        
+        or
+        
+        ```c
         ls >> $a
         ```
         
@@ -890,9 +959,18 @@
         
         ```c
         ls < $abc$efg$hijk
+        ```
         
+        or
+        
+        ```c
         ls > $abc$efg$hijk
         
+        ```
+        
+        or
+        
+        ```c
         ls >> $abc$efg$hijk
         ```
         
@@ -902,6 +980,50 @@
         ambiguous redirect
         
         // exit status = 1
+        ```
+        
+    - TEST 4:
+        
+        INPUT:
+        
+        ```c
+        rm -f file
+        ```
+        
+        ```c
+        > file < $a ls
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        ambiguous redirect
+        
+        // exit status = 1
+        // "file" is created and is empty
+        ```
+        
+    - TEST 5:
+        
+        INPUT:
+        
+        ```c
+        rm -f file
+        ```
+        
+        ```c
+        > file cat | ls < $a
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        ambiguous redirect
+        
+        // exit status = 1
+        // "file" is created and is empty
+        // cat acts like bloking command
+        // you can press enter
         ```
         
 - BUILTINS
