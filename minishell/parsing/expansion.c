@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 12:13:21 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/08 13:54:14 by mmakarov         ###   ########.fr       */
+/*   Updated: 2023/06/21 09:22:39 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -105,7 +105,7 @@ int	expansion(t_token **head, t_token *curr, int pos)
 {
 	if (curr)
 	{
-		if (curr->id == DOLLAR)
+		if (curr->id == DOLLAR || curr->id == DOLLAR_KEY_W)
 		{
 			pos = check_dollar(curr, pos);
 			if (pos == ERROR_EXIT)

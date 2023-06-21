@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 11:07:14 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/10 14:42:14 by mmakarov         ###   ########.fr       */
+/*   Updated: 2023/06/21 09:35:00 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -92,7 +92,7 @@ static int	var_len(char *s, int i)
 	return (len);
 }
 
-int	new_id(t_token **new)
+int	new_id(t_token **new, int save)
 {
 	t_token	*ptr;
 
@@ -104,8 +104,13 @@ int	new_id(t_token **new)
 		ptr = ptr->next;
 	}
 	if (ptr->next == NULL)
-		return (WORD);
-	return (set_id_expansion(ptr->next));
+	{
+		if (save == DOLLAR_KEY_W)
+			return (KEY_WORD);
+		else
+			return (WORD);
+	}
+	return (set_id_after_expansion(ptr->next, save));
 }
 
 /*
@@ -118,15 +123,17 @@ int	prepare_expand(t_token *curr, int i)
 	t_token	*new;
 	int		len;
 	int		id;
+	int		save;
 
 	new = NULL;
+	save = curr->id;
 	len = var_len(curr->content, i);
 	if (split_tokens(&new, curr->content, i, len + 1) == ERROR_EXIT)
 		return (free_token(&new), ERROR_EXIT);
 	len = expand_var(&new);
 	if (len == ERROR_EXIT)
 		return (free_token(&new), ERROR_EXIT);
-	id = new_id (&new);
+	id = new_id (&new, save);
 	if (join_tokens(&new, curr) == ERROR_EXIT)
 		return (free_token(&new), ERROR_EXIT);
 	if (curr->id == DELETE)

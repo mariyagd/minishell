@@ -6,7 +6,7 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 10:16:33 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/17 10:56:27 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/21 09:42:49 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,19 @@
 # define WHT    "\x1B[37m"
 # define RESET  "\x1B[0m"
 
-# define WORD		1
-# define PIPELINE	2
-# define L_CHEVRON	3
-# define R_CHEVRON	4
-# define APPEND		5
-# define HERE_DOC	6
-# define DOLLAR		7
-# define QUESTION	8
-# define EXPAND		9
-# define DELETE		10
-# define EXPANDED	11
-# define KEY_WORD	12
+# define WORD				1
+# define PIPELINE			2
+# define L_CHEVRON			3
+# define R_CHEVRON			4
+# define APPEND				5
+# define HERE_DOC			6
+# define DOLLAR				7
+# define QUESTION			8
+# define EXPAND				9
+# define DELETE				10
+# define EXPANDED			11
+# define KEY_WORD			12
+# define DOLLAR_KEY_W		13
 # define ERROR_EXIT	-1
 
 //int	g_exit_status;
@@ -186,7 +187,7 @@ int		join_tokens(t_token **new, t_token *curr);
 
 /*		EXPANSION (parsing_expansion_helper.c)*/
 int		prepare_expand(t_token *tmp, int i);
-int		set_id_expansion(t_token *token);
+int		set_id_expansion(t_token *token, int flag);
 
 /*		QUOTE REMOVING (parsing_quote_removing.c)*/
 int		quote_removing(t_token **head, t_token *curr, int pos);
@@ -221,7 +222,7 @@ void	error_message2(char *s1, char *s2);
 /* 		TOKEN EXTRACTION - TOKEN LINKED LIST (token_routine_.c) */
 t_token	*new_token(char *line, int start, int len);
 void	set_id(t_token **head, t_token *token);
-void	set_id_after_expansion(t_token **head);
+int		set_id_after_expansion(t_token *token, int flag);
 void	set_id_before_expansion(t_token **head);
 int		token_linked_list(t_token **head, char *line, int start, int len);
 int		link_token(t_token **head, t_token *new);

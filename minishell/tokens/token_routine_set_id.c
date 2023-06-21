@@ -6,16 +6,29 @@
 /*   By: mdanchev <mdanchev@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:26:32 by mdanchev          #+#    #+#             */
-/*   Updated: 2023/06/17 10:58:30 by mdanchev         ###   lausanne.ch       */
+/*   Updated: 2023/06/21 09:53:12 by mdanchev         ###   lausanne.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	set_id_expansion(t_token *token)
+int	set_id_expansion(t_token *token, int flag)
 {
 	if (ft_strchr(token->content, '$'))
-		return (DOLLAR);
-	return (WORD);
+	{
+		if (flag == KEY_WORD)
+		{
+			return (DOLLAR_KEY_W);
+		}
+		else
+			return (DOLLAR);
+	}
+	else
+	{
+		if (flag == KEY_WORD)
+			return (KEY_WORD);
+		else
+			return (WORD);
+	}
 }
 
 int	check_for_heredoc(t_token **head, int pos)
@@ -66,7 +79,7 @@ void	set_id(t_token **head, t_token *token)
 	return ;
 }
 
-void	set_id_after_expansion(t_token **head)
+/*void	set_id_after_expansion(t_token **head)
 {
 	t_token	*token;
 
@@ -93,6 +106,26 @@ void	set_id_after_expansion(t_token **head)
 		}
 	}
 	return ;
+}*/
+
+int	set_id_after_expansion(t_token *token, int flag)
+{
+	if (ft_strchr(token->content, '$'))
+	{
+		if (flag == DOLLAR_KEY_W)
+		{
+			return (DOLLAR_KEY_W);
+		}
+		else
+			return (DOLLAR);
+	}
+	else
+	{
+		if (flag == DOLLAR_KEY_W)
+			return (KEY_WORD);
+		else
+			return (WORD);
+	}
 }
 
 void	set_id_before_expansion(t_token **head)
@@ -106,18 +139,18 @@ void	set_id_before_expansion(t_token **head)
 			token = token->next;
 		else if (token->id == HERE_DOC)
 		{
-			token = token->next;
-			token->id = KEY_WORD;
+			token->next->id = KEY_WORD;
+			token = token->next->next;
 		}
 		else if (token->id == APPEND || token->id == R_CHEVRON || \
 				token->id == L_CHEVRON)
 		{
-			token = token->next;
-			token->id = set_id_expansion(token);
+			token->next->id = set_id_expansion(token->next, KEY_WORD);
+			token = token->next->next;
 		}
 		else
 		{
-			token->id = set_id_expansion(token);
+			token->id = set_id_expansion(token, WORD);
 			token = token->next;
 		}
 	}
