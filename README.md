@@ -19,7 +19,6 @@ hello
 
 </details>
 
-
 <details><summary>
 
 ## SYNTAX
@@ -46,7 +45,6 @@ hello
  // exit status = 258
  ```
 </details>
-    
 
 <details><summary>
 
@@ -70,7 +68,6 @@ bash: syntax error near unexpected token `|'
 
 </details>
 
-    
 <details><summary>
 
 #### TEST 3:
@@ -101,8 +98,7 @@ minishell: syntax error near unexpected token '|'
 // in both cases, the exit status is 258
 ```
 
-</details>
-    
+</details>   
 
 <details><summary>
 
@@ -124,8 +120,7 @@ syntax error near unexpected token `|'
 // exit status = 258
 ```
 
-</details>
-    
+</details> 
 
 <details><summary>
 
@@ -148,8 +143,7 @@ syntax error near unexpected token `>>'
 ```
 
 </details>
-
-    
+ 
 <details><summary>
 
 #### TEST 6:
@@ -171,7 +165,6 @@ syntax error near unexpected token `<'
 ```
 
 </details>
-
 
 <details><summary>
 
@@ -197,7 +190,6 @@ syntax error near unexpected token `newline'
 
 </details>
 </details>
-
 
 <details><summary>
 
