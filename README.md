@@ -199,43 +199,62 @@ syntax error near unexpected token `newline'
 </details>
 
 
-- PARSING
-    - TEST 1: quotes
-        
-        Entre quotes chaque caractère est préservé
-        
-        ```c
-        ls "    -la          "
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        ls:     -la          : No such file or directory
-        ```
-        
-    - TEST 2: quotes
-        
-        INPUT:
-        
-        ```c
-        "l""s"
-        ```
-        
-        ```c
-        "l"'s'
-        ```
-        
-        ```c
-        """l"'s'""
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        exécution normale
-        ```
-        
+<details><summary>
+
+## PARSING
+
+</summary>
+
+<details><summary>
+
+#### TEST 1: quotes
+
+</summary>
+
+Entre quotes chaque caractère est préservé
+
+```c
+ls "    -la          "
+```
+
+OUTPUT:
+
+```c
+ls:     -la          : No such file or directory
+```
+
+</details>
+
+<details><summary>
+
+#### TEST 2: quotes
+
+</summary>
+
+INPUT:
+
+```c
+"l""s"
+```
+
+```c
+"l"'s'
+```
+
+```c
+"""l"'s'""
+```
+
+OUTPUT:
+
+```c
+exécution normale
+```
+
+</details>
+</details>
+
+
 - HERE DOC
     - TEST 1: keyword is unquoted
         
