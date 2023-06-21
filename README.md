@@ -562,7 +562,9 @@ SHELL
 </details>
         
 <details><summary>
+
 #### TEST 10: ctrl + c
+
 </summary>
 
 INPUT:
@@ -582,7 +584,9 @@ OUTPUT:
 </details>
         
 <details><summary>
+
 #### TEST 11: expansion in heredoc
+
 </summary>
 
 INPUT:
@@ -613,7 +617,9 @@ I'mmdanchev!
 </details>
         
 <details><summary>
+
 #### TEST 12: commands before heredoc and signal
+
 </summary>
 
 INPUT:
