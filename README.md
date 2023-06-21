@@ -1143,131 +1143,164 @@ OUTPUT:
 </details>
 </details>
         
-- AMBIGIOUS REDIRECTION
-    - TEST 1:
+
+<details><summary>
+## AMBIGIOUS REDIRECTION
+
+</summary>
+
+<details><summary>
+
+#### TEST 1:
+
+</summary>
+
+INPUT:
+
+```c
+ls < $a
+```
+
+or
+
+```c
+< $a ls
+```
+
+OUTPUT:
+
+```c
+ambiguous redirect
+
+// exit status = 1
+```
+
+</details>
         
-        INPUT:
+<details><summary>
+
+#### TEST 2:
+
+</summary>
+
+INPUT:
+
+```c
+ls < $a
+```
+
+or
+
+```c
+ls > $a
+
+```
+
+or
+
+```c
+ls >> $a
+```
+
+OUTPUT:
+
+```c
+ambiguous redirect
+
+// exit status = 1
+```
+</details>
         
-        ```c
-        ls < $a
-        ```
+<details><summary>
+
+#### TEST 3:
+
+</summary>
+
+INPUT:
+
+```c
+ls < $abc$efg$hijk
+```
+
+or
+
+```c
+ls > $abc$efg$hijk
+
+```
+
+or
+
+```c
+ls >> $abc$efg$hijk
+```
+
+OUTPUT:
+
+```c
+ambiguous redirect
+
+// exit status = 1
+```
+</details>
         
-        or
+<details><summary>
+
+#### TEST 4:
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file
+```
+
+```c
+> file < $a ls
+```
+
+OUTPUT:
+
+```c
+ambiguous redirect
+
+// exit status = 1
+// "file" is created and is empty
+```
+</details>
         
-        ```c
-        < $a ls
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        ambiguous redirect
-        
-        // exit status = 1
-        ```
-        
-    - TEST 2:
-        
-        INPUT:
-        
-        ```c
-        ls < $a
-        ```
-        
-        or
-        
-        ```c
-        ls > $a
-        
-        ```
-        
-        or
-        
-        ```c
-        ls >> $a
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        ambiguous redirect
-        
-        // exit status = 1
-        ```
-        
-    - TEST 3:
-        
-        INPUT:
-        
-        ```c
-        ls < $abc$efg$hijk
-        ```
-        
-        or
-        
-        ```c
-        ls > $abc$efg$hijk
-        
-        ```
-        
-        or
-        
-        ```c
-        ls >> $abc$efg$hijk
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        ambiguous redirect
-        
-        // exit status = 1
-        ```
-        
-    - TEST 4:
-        
-        INPUT:
-        
-        ```c
-        rm -f file
-        ```
-        
-        ```c
-        > file < $a ls
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        ambiguous redirect
-        
-        // exit status = 1
-        // "file" is created and is empty
-        ```
-        
-    - TEST 5:
-        
-        INPUT:
-        
-        ```c
-        rm -f file
-        ```
-        
-        ```c
-        > file cat | ls < $a
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        ambiguous redirect
-        
-        // exit status = 1
-        // "file" is created and is empty
-        // cat acts like bloking command
-        // you can press enter
-        ```
-        
+<details><summary>
+
+#### TEST 5:
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file
+```
+
+```c
+> file cat | ls < $a
+```
+
+OUTPUT:
+
+```c
+ambiguous redirect
+
+// exit status = 1
+// "file" is created and is empty
+// cat acts like bloking command
+// you can press enter
+```
+
+</details>
+</details>
+
 - BUILTINS
     - TEST 1: SHLVL
         
