@@ -1,205 +1,143 @@
 # minishell - tests
 
-<details><summary>
-
-## Notes:
-
-</summary>
-
+- Notes:
+    
     Expansion on dollar:
     
     Dollar, followed by numbers is expanded. Numbers are considered to be words that are search in the environnement variables. Exemple:
     
-```c
-echo hello$1234 
-
-OUTPUT:
-hello
-```
-
-</details>
-
-
-<details><summary>
-
-## SYNTAX
-
-</summary>
-
-<details><summary>
-
-#### TEST 1:
-
-</summary>
- 
- INPUT:
- 
- ```c
- >
- ```
- 
- OUTPUT:
- 
- ```c
- bash: syntax error near unexpected token `newline'
- 
- // exit status = 258
- ```
-</details>
+    ```c
+    echo hello$1234 
     
-
-<details><summary>
-
-#### TEST 2:
-
-</summary>
-
-INPUT:
-
-```c
-|
-```
-
-OUTPUT:
-
-```c
-bash: syntax error near unexpected token `|'
-
-// exit status =258
-```
-
-</details>
-
+    OUTPUT:
+    hello
+    ```
     
-<details><summary>
-
-#### TEST 3:
-
-</summary>
-    
-INPUT:
-
-```c
->|<
-```
-
-OUTPUT: 
-
-```c
-// bash treats ">|" as on operator
-// and sends error message because there is a second 
-// operator "<" whitout key word
-// This is the error message in bash:
-
-syntax error near unexpected token `<'
-
-// but in minisehll, we don't treat ">|" as a single operator, 
-// so we send this error message:
-
-minishell: syntax error near unexpected token '|'
-
-// in both cases, the exit status is 258
-```
-
-</details>
-    
-
-<details><summary>
-
-#### TEST 4:
-
-</summary>
-
-INPUT:
-
-```c
->>|<<
-```
-
-OUTPUT:
-
-```c
-syntax error near unexpected token `|'
-
-// exit status = 258
-```
-
-</details>
-    
-
-<details><summary>
-
-#### TEST 5:
-
-</summary>
-
-INPUT:
-
-```c
->>>>>>>>>>>|<<<<<<<<<<<
-```
-
-OUTPUT:
-
-```c
-syntax error near unexpected token `>>'
-
-// exit status = 258
-```
-
-</details>
-
-    
-<details><summary>
-
-#### TEST 6:
-
-</summary>
-
-INPUT:
-
-```c
-><|
-```
-
-OUTPUT:
-
-```c
-syntax error near unexpected token `<'
-
-// exit status = 258
-```
-
-</details>
-
-
-<details><summary>
-
-#### TEST 7:
-
-</summary>
-
-INPUT:
-
-```c
-ls << "<" | <
-
-```
-
-OUTPUT:
-
-```c
-syntax error near unexpected token `newline'
-
-// here doc is not open
-// exit status = 258
-```
-
-</details>
-
-</details>
-
-
+- SYNTAX
+    - TEST 1:
+        
+        INPUT:
+        
+        ```c
+        >
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        bash: syntax error near unexpected token `newline'
+        
+        // exit status = 258
+        ```
+        
+    - TEST 2:
+        
+        INPUT:
+        
+        ```c
+        |
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        bash: syntax error near unexpected token `|'
+        
+        // exit status =258
+        ```
+        
+    - TEST 3:
+        
+        INPUT:
+        
+        ```c
+        >|<
+        ```
+        
+        OUTPUT: 
+        
+        ```c
+        // bash treats ">|" as on operator
+        // and sends error message because there is a second 
+        // operator "<" whitout key word
+        // This is the error message in bash:
+        
+        syntax error near unexpected token `<'
+        
+        // but in minisehll, we don't treat ">|" as a single operator, 
+        // so we send this error message:
+        
+        minishell: syntax error near unexpected token '|'
+        
+        // in both cases, the exit status is 258
+        ```
+        
+    - TEST 4:
+        
+        INPUT:
+        
+        ```c
+        >>|<<
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        syntax error near unexpected token `|'
+        
+        // exit status = 258
+        ```
+        
+    - TEST 5:
+        
+        INPUT:
+        
+        ```c
+        >>>>>>>>>>>|<<<<<<<<<<<
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        syntax error near unexpected token `>>'
+        
+        // exit status = 258
+        ```
+        
+    - TEST 6:
+        
+        INPUT:
+        
+        ```c
+        ><|
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        syntax error near unexpected token `<'
+        
+        // exit status = 258
+        ```
+        
+    - TEST 7:
+        
+        INPUT:
+        
+        ```c
+        ls << "<" | <
+        
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        syntax error near unexpected token `newline'
+        
+        // here doc is not open
+        // exit status = 258
+        ```
+        
 - PARSING
     - TEST 1: quotes
         
