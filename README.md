@@ -247,325 +247,393 @@ exécution normale
 </details>
 
 
-- HERE DOC
-    - TEST 1: keyword is unquoted
-        
-        INPUT:
-        
-        ```c
-        cat << a
-        ```
-        
-        ```c
-        hello
-        $SHELL
-        "$SHELL"
-        $abc"hello
-        $aaa$bbb$SHELL
-        $?
-        a            // -> the right keyword
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        hello
-        /bin/zsh
-        "/bin/zsh"
-        "hello
-        /bin/zsh
-        0
-        ```
-        
-    - TEST 2: keyword between quotes
-        
-        INPUT: 
-        
-        ```c
-        cat << "a"
-        ```
-        
-        ```c
-        $SHELL$USER$HELLO
-        'a'
-        "a"
-        aa
-        aaa
-        "a
-        a"
-        123455
-        ?>:"/*@
-        a            // -> the right keyword
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        $SHELL$USER$HELLO
-        'a'
-        "a"
-        aa
-        aaa
-        "a
-        a"
-        123455
-        ?>:"/*@
-        ```
-        
-    - TEST 3: keyword between quotes
-        
-        INPUT:
-        
-        ```c
-        cat << "a"a'a'
-        ```
-        
-        ```c
-        "a"a'a'
-        $SHELL
-        $A
-        $USER1234
-        aaaabbbbcccc
-        >>>>>>>>
-        >
-        aaa // -> the right keyword
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        "a"a'a'
-        $SHELL
-        $A
-        $USER1234
-        aaaabbbbcccc
-        >>>>>>>>
-        
-        ```
-        
-    - TEST 4: keyword has dollar sign
-        
-        INPUT:
-        
-        ```c
-        cat << $USER
-        ```
-        
-        ```c
-        $HELLO
-        $SHLVL
-        $SHELL
-        123456789
-        USER
-        $$USER    // -> I expand here
-        $$$$$USER // -> I expand here
-        "$USER"
-        '$USER'
-        $USER     // -> the right keyword
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        (newline)
-        2
-        /bin/zsh
-        123456789
-        USER
-        $mdanchev
-        $$$$mdanchev
-        "mdanchev"
-        'mdanchev'
-        ```
-        
-    - TEST 5: keyword is `\0`
-        
-        INPUT:
-        
-        ```c
-        cat << ""
-        ```
-        
-        ```c
-        > $HELLO
-        > $?
-        > $SHELL
-        >         // -> press enter -> empty line is the key word
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        $HELLO
-        $?
-        $SHELL
-        
-        // no expansion is performed because que key word is quoted ("\0")
-        ```
-        
-    - TEST 6: sequence of heredocs
-        
-        INPUT:
-        
-        ```c
-        <<a<<b<<c<<d<<e<<f
-        
-        <<a<<b | <<c<<d |<<e | <<f
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // no output
-        // the .here_doc file is deleted
-        // if ctrl + c is pressed before exiting the last here_doc,
-        // the here_doc file should be deleted
-        // you should be able to execute another command like ls
-        ```
-        
-    - TEST 7: keyword is $
-        
-        INPUT:
-        
-        ```c
-        cat << $
-        ```
-        
-        ```c
-        $SHELL
-        $USERNAME
-        $SHELL$USERNAME
-        $$
-        $$$$$$$$
-        $?
-        "$"
-        '$'
-        $             // -> the right keyword
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        /bin/zsh
-        (newline)
-        /bin/zsh
-        $$
-        $$$$$$$$
-        1
-        "$"
-        '$'
-        ```
-        
-    - TEST 8: keyword is $
-        
-        INPUT:
-        
-        ```c
-        cat << $SHELL
-        ```
-        
-        ```c
-        $$SHELL
-        $SHEL
-        $SH
-        SHELL
-        $SHELL     // -> the right keyword
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        $/bin/zsh
-        (newline)
-        (newline)
-        SHELL
-        ```
-        
-    - TEST 9: expansion here doc results in a `\n`
-        
-        INPUT:
-        
-        ```c
-        cat << a
-        ```
-        
-        ```c
-        $abcde$12345
-        $hello$kitty
-        $hahaha
-        a
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        (newline) // because there is no environnement variable with this name
-        (newline)
-        (newline)
-        ```
-        
-    - TEST 10: ctrl + c
-        
-        INPUT:
-        
-        ```c
-        ls | cat << a
-        
-        + ctrl +c
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // ls should not execute
-        // exit status = 1
-        ```
-        
-    - TEST 11: expansion in heredoc
-        
-        INPUT:
-        
-        ```c
-        cat << a
-        ```
-        
-        ```c
-        $hello?
-        $abc(test)
-        I'm$USER1234
-        I'm$USER!
-        $hello,comment$va?
-        a // -> key word
-        
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        ?
-        (test)
-        I'm
-        I'mmdanchev!
-        ,comment?
-        ```
-        
-    - TEST 12: commands before heredoc and signal
-        
-        INPUT:
-        
-        ```c
-        > file << eof
-        
-        + ctrl + c or + ctrl + d
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // if ctrl +c -> should not create the file
-        // else if ctrl + d -> creates the file
-        ```
-        
+<details><summary>
+
+## HERE DOC
+
+</summary>
+
+
+<details><summary>
+
+#### TEST 1: keyword is unquoted
+
+</summary>
+
+INPUT:
+
+```c
+cat << a
+```
+
+```c
+hello
+$SHELL
+"$SHELL"
+$abc"hello
+$aaa$bbb$SHELL
+$?
+a            // -> the right keyword
+```
+
+OUTPUT:
+
+```c
+hello
+/bin/zsh
+"/bin/zsh"
+"hello
+/bin/zsh
+0
+```
+</details>
+        
+<details><summary>
+
+#### TEST 2: keyword between quotes
+
+</summary>
+
+INPUT: 
+
+```c
+cat << "a"
+```
+
+```c
+$SHELL$USER$HELLO
+'a'
+"a"
+aa
+aaa
+"a
+a"
+123455
+?>:"/*@
+a            // -> the right keyword
+```
+
+OUTPUT:
+
+```c
+$SHELL$USER$HELLO
+'a'
+"a"
+aa
+aaa
+"a
+a"
+123455
+?>:"/*@
+```
+
+</details>
+
+
+<details><summary>
+
+#### TEST 3: keyword between quotes
+
+</summary>
+
+INPUT:
+
+```c
+cat << "a"a'a'
+```
+
+```c
+"a"a'a'
+$SHELL
+$A
+$USER1234
+aaaabbbbcccc
+>>>>>>>>
+>
+aaa // -> the right keyword
+```
+
+OUTPUT:
+
+```c
+"a"a'a'
+$SHELL
+$A
+$USER1234
+aaaabbbbcccc
+>>>>>>>>
+
+```
+</details>
+        
+<details><summary>
+
+#### TEST 4: keyword has dollar sign
+
+</summary>
+
+INPUT:
+
+```c
+cat << $USER
+```
+
+```c
+$HELLO
+$SHLVL
+$SHELL
+123456789
+USER
+$$USER    // -> I expand here
+$$$$$USER // -> I expand here
+"$USER"
+'$USER'
+$USER     // -> the right keyword
+```
+
+OUTPUT:
+
+```c
+(newline)
+2
+/bin/zsh
+123456789
+USER
+$mdanchev
+$$$$mdanchev
+"mdanchev"
+'mdanchev'
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 5: keyword is `\0`
+
+</summary>
+
+INPUT:
+
+```c
+cat << ""
+```
+
+```c
+> $HELLO
+> $?
+> $SHELL
+>         // -> press enter -> empty line is the key word
+```
+
+OUTPUT:
+
+```c
+$HELLO
+$?
+$SHELL
+
+// no expansion is performed because que key word is quoted ("\0")
+```
+
+</details>
+
+        
+<details><summary>
+
+#### TEST 6: sequence of heredocs
+        
+</summary>
+
+INPUT:
+
+```c
+<<a<<b<<c<<d<<e<<f
+
+<<a<<b | <<c<<d |<<e | <<f
+```
+
+OUTPUT:
+
+```c
+// no output
+// the .here_doc file is deleted
+// if ctrl + c is pressed before exiting the last here_doc,
+// the here_doc file should be deleted
+// you should be able to execute another command like ls
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 7: keyword is $
+
+</summary>
+
+INPUT:
+
+```c
+cat << $
+```
+
+```c
+$SHELL
+$USERNAME
+$SHELL$USERNAME
+$$
+$$$$$$$$
+$?
+"$"
+'$'
+$             // -> the right keyword
+```
+
+OUTPUT:
+
+```c
+/bin/zsh
+(newline)
+/bin/zsh
+$$
+$$$$$$$$
+1
+"$"
+'$'
+```
+</details>
+        
+<details><summary>
+
+#### TEST 8: keyword is $
+
+</summary>
+
+INPUT:
+
+```c
+cat << $SHELL
+```
+
+```c
+$$SHELL
+$SHEL
+$SH
+SHELL
+$SHELL     // -> the right keyword
+```
+
+OUTPUT:
+
+```c
+$/bin/zsh
+(newline)
+(newline)
+SHELL
+```
+</details>
+        
+<details><summary>
+
+#### TEST 9: expansion here doc results in a `\n`
+
+</summary>
+ 
+ INPUT:
+ 
+ ```c
+ cat << a
+ ```
+ 
+ ```c
+ $abcde$12345
+ $hello$kitty
+ $hahaha
+ a
+ ```
+ 
+ OUTPUT:
+ 
+ ```c
+ (newline) // because there is no environnement variable with this name
+ (newline)
+ (newline)
+ ```
+</details>
+        
+<details><summary>
+#### TEST 10: ctrl + c
+</summary>
+
+INPUT:
+
+```c
+ls | cat << a
+
++ ctrl +c
+```
+
+OUTPUT:
+
+```c
+// ls should not execute
+// exit status = 1
+```
+</details>
+        
+<details><summary>
+#### TEST 11: expansion in heredoc
+</summary>
+
+INPUT:
+
+```c
+cat << a
+```
+
+```c
+$hello?
+$abc(test)
+I'm$USER1234
+I'm$USER!
+$hello,comment$va?
+a // -> key word
+
+```
+
+OUTPUT:
+
+```c
+?
+(test)
+I'm
+I'mmdanchev!
+,comment?
+```
+</details>
+        
+<details><summary>
+#### TEST 12: commands before heredoc and signal
+</summary>
+
+INPUT:
+
+```c
+> file << eof
+
++ ctrl + c or + ctrl + d
+```
+
+OUTPUT:
+
+```c
+// if ctrl +c -> should not create the file
+// else if ctrl + d -> creates the file
+```
+
+</details>
+</details>
+
 - REDIRECTIONS
     - TEST 1: < fdin, no command
         
