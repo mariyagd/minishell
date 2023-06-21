@@ -643,393 +643,504 @@ OUTPUT:
 <details><summary>
 
 ## REDIRECTIONS
-    - TEST 1: < fdin, no command
-        
-        INPUT:
-        
-        ```c
-        rm -f file1
-        ```
-        
-        ```c
-        < file1
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        minishell: file1 No such file or directory
-        
-        // exit status = 1
-        ```
-        
-    - TEST 2: >, >>, fdout, no command
-        
-        INPUT:
-        
-        ```c
-        rm -f file
-        >> file
-        ```
-        
-        or
-        
-        ```c
-        rm -f file
-        > file
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // should create the file
-        ```
-        
-    - TEST 3: < fdin
-        
-        INPUT:
-        
-        ```c
-        rm -f file1 file2 file3 file4 
-        ```
-        
-        ```c
-        echo a > file1
-        echo b > file2
-        echo c > file3
-        echo d > file4
-        ```
-        
-        ```c
-        <file1 <file2 cat <file3 <file4
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        d  // cat command should take as fdin only the last file
-        ```
-        
-    - TEST 4: < fdin
-        
-        INPUT:
-        
-        ```c
-        ls > file4
-        ```
-        
-        ```c
-        <file4 wc
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        29      29     280 // wc counts the number of lines
-        ```
-        
-    - TEST 5: > sequence of “>”
-        
-        INPUT:
-        
-        ```c
-        rm -f file1 file2 file3 file4
-        ```
-        
-        ```c
-        ls > file1 > file2 > file3 > file4
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // only file4 should have the output
-        ```
-        
-    - TEST 6: >  test on TRUNC
-        
-        INPUT:
-        
-        ```c
-        echo "coucou comment sa va" > file4
-        ```
-        
-        ```c
-        uname > file4
-        ```
-        
-        ```c
-        cat file4
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // all the previous content should be deleted and replaced by the new ouput
-        ```
-        
-    - TEST 7: >> fdout
-        
-        INPUT:
-        
-        ```c
-        rm -f file1 file2 file3 file4
-        ```
-        
-        ```c
-        echo coucou >>file1 >> file2 >>     file3 >>            file4
-        ```
-        
-        ```c
-        cat file1
-        cat file2
-        cat file3
-        cat file4
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // all files were created
-        // only file4 has "coucou"
-        ```
-        
-    - TEST 8: combination of < and <<
-        
-        INPUT:
-        
-        ```c
-        rm -f file
-        ```
-        
-        ```c
-        uname > file
-        ```
-        
-        ```c
-        < file
-        ```
-        
-        ```c
-        < file << EOF
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // should open the here doc file
-        // no output
-        ```
-        
-    - TEST 9: combination of < and <<
-        
-        INPUT:
-        
-        ```c
-        rm -f file
-        ```
-        
-        ```c
-        < file << eof
-        ```
-        
-        Write something in the here doc. Exemple:
-        
-        ```c
-        test
-        eof // -> keyword
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        minishell: file No such file or directory
-        
-        // exit status = 1
-        ```
-        
-    - TEST 10: combination of < and <<
-        
-        INPUT:
-        
-        ```c
-        rm -f file
-        ```
-        
-        ```c
-        < file << eof
-        ```
-        
-        ```c
-        + ctrl  + c 
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        ^C 
-        // there is no message "file not found"
-        // exit status is 1
-        ```
-        
-    - TEST 11: combination of < , > and >>
-        
-        INPUT:
-        
-        ```c
-        rm -f file1 file2 file3
-        ```
-        
-        ```c
-        ls > file1
-        ```
-        
-        ```c
-        < file1 wc > file2 >> file3
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // only file3 has the output of the command wc
-        ```
-        
-    - TEST 12: `\0`
-        
-        INPUT:
-        
-        ```c
-        ls < ""
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        minishell:  No such file or directory
-        
-        //exit status = 1
-        ```
-        
-    - TEST 13: `\0`
-        
-        INPUT:
-        
-        ```c
-         "" < ""
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        minishell:  No such file or directory
-        
-        //exit status = 1
-        ```
-        
-    - TEST 14: `\0`
-        
-        INPUT:
-        
-        ```c
-        rm -f file
-        ```
-        
-        ```c
-         "" < file
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        minishell: file: No such file or directory
-        
-        // exit status = 1
-        // file is not created
-        ```
-        
-    - TEST 15: `\0`
-        
-        INPUT:
-        
-        ```c
-        rm -f file
-        ```
-        
-        ```c
-         "" > file
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        minishell: : command not found
-        
-        // exit status = 127
-        // file is created
-        ```
-        
-    - TEST 16: expansion
-        
-        INPUT:
-        
-        ```c
-        > hello$coucou
-        ```
-        
-        or
-        
-        ```c
-        >> hello$coucou
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // should create a file called "hello"
-        // exit status = 0
-        ```
-        
-    - TEST 17: expansion
-        
-        INPUT:
-        
-        ```c
-        > $aaaa$bb"b"bb$ccc
-        ```
-        
-        or
-        
-        ```c
-        >> $aaaa$bb"b"bb$ccc
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // should create a file called "bbb"
-        // exit status = 0
-        ```
-        
-    - TEST 18: expansion
-        
-        INPUT:
-        
-        ```c
-        > $aaaa$bb"b"bb$cc'c'
-        ```
-        
-        or
-        
-        ```c
-        >> $aaaa$bb"b"bb$cc'c'
-        ```
-        
-        OUTPUT:
-        
-        ```c
-        // should create a file called "bbbc"
-        // exit status = 0
-        ```
+
+</summary>
+
+<details><summary>
+
+#### TEST 1: < fdin, no command
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file1
+```
+
+```c
+< file1
+```
+
+OUTPUT:
+
+```c
+minishell: file1 No such file or directory
+
+// exit status = 1
+```
+
+</details>
+
+<details><summary>
+
+#### TEST 2: >, >>, fdout, no command
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file
+>> file
+```
+
+or
+
+```c
+rm -f file
+> file
+```
+
+OUTPUT:
+
+```c
+// should create the file
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 3: < fdin
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file1 file2 file3 file4 
+```
+
+```c
+echo a > file1
+echo b > file2
+echo c > file3
+echo d > file4
+```
+
+```c
+<file1 <file2 cat <file3 <file4
+```
+
+OUTPUT:
+
+```c
+d  // cat command should take as fdin only the last file
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 4: < fdin
+
+</summary>
+
+INPUT:
+
+```c
+ls > file4
+```
+
+```c
+<file4 wc
+```
+
+OUTPUT:
+
+```c
+29      29     280 // wc counts the number of lines
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 5: > sequence of “>”
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file1 file2 file3 file4
+```
+
+```c
+ls > file1 > file2 > file3 > file4
+```
+
+OUTPUT:
+
+```c
+// only file4 should have the output
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 6: >  test on TRUNC
+
+</summary>
+
+INPUT:
+
+```c
+echo "coucou comment sa va" > file4
+```
+
+```c
+uname > file4
+```
+
+```c
+cat file4
+```
+
+OUTPUT:
+
+```c
+// all the previous content should be deleted and replaced by the new ouput
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 7: >> fdout
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file1 file2 file3 file4
+```
+
+```c
+echo coucou >>file1 >> file2 >>     file3 >>            file4
+```
+
+```c
+cat file1
+cat file2
+cat file3
+cat file4
+```
+
+OUTPUT:
+
+```c
+// all files were created
+// only file4 has "coucou"
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 8: combination of < and <<
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file
+```
+
+```c
+uname > file
+```
+
+```c
+< file
+```
+
+```c
+< file << EOF
+```
+
+OUTPUT:
+
+```c
+// should open the here doc file
+// no output
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 9: combination of < and <<
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file
+```
+
+```c
+< file << eof
+```
+
+Write something in the here doc. Exemple:
+
+```c
+test
+eof // -> keyword
+```
+
+OUTPUT:
+
+```c
+minishell: file No such file or directory
+
+// exit status = 1
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 10: combination of < and <<
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file
+```
+
+```c
+< file << eof
+```
+
+```c
++ ctrl  + c 
+```
+
+OUTPUT:
+
+```c
+^C 
+// there is no message "file not found"
+// exit status is 1
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 11: combination of < , > and >>
+        
+</summary>
+
+INPUT:
+
+```c
+rm -f file1 file2 file3
+```
+
+```c
+ls > file1
+```
+
+```c
+< file1 wc > file2 >> file3
+```
+
+OUTPUT:
+
+```c
+// only file3 has the output of the command wc
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 12: `\0`
+
+</summary>
+
+INPUT:
+
+```c
+ls < ""
+```
+
+OUTPUT:
+
+```c
+minishell:  No such file or directory
+
+//exit status = 1
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 13: `\0`
+
+</summary>
+ 
+ INPUT:
+ 
+ ```c
+  "" < ""
+ ```
+ 
+ OUTPUT:
+ 
+ ```c
+ minishell:  No such file or directory
+ 
+ //exit status = 1
+ ```
+ 
+</details>
+
+<details><summary>
+
+#### TEST 14: `\0`
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file
+```
+
+```c
+ "" < file
+```
+
+OUTPUT:
+
+```c
+minishell: file: No such file or directory
+
+// exit status = 1
+// file is not created
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 15: `\0`
+
+</summary>
+
+INPUT:
+
+```c
+rm -f file
+```
+
+```c
+ "" > file
+```
+
+OUTPUT:
+
+```c
+minishell: : command not found
+
+// exit status = 127
+// file is created
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 16: expansion
+
+</summary>
+
+INPUT:
+
+```c
+> hello$coucou
+```
+
+or
+
+```c
+>> hello$coucou
+```
+
+OUTPUT:
+
+```c
+// should create a file called "hello"
+// exit status = 0
+```
+
+</details>
+        
+<details><summary>
+
+#### TEST 17: expansion
+
+</summary>
+ 
+ INPUT:
+ 
+ ```c
+ > $aaaa$bb"b"bb$ccc
+ ```
+ 
+ or
+ 
+ ```c
+ >> $aaaa$bb"b"bb$ccc
+ ```
+ 
+ OUTPUT:
+ 
+ ```c
+ // should create a file called "bbb"
+ // exit status = 0
+ ```
+
+</details>
+        
+<details><summary>
+
+#### TEST 18: expansion
+
+</summary>
+ 
+ INPUT:
+ 
+ ```c
+ > $aaaa$bb"b"bb$cc'c'
+ ```
+ 
+ or
+ 
+ ```c
+ >> $aaaa$bb"b"bb$cc'c'
+ ```
+ 
+ OUTPUT:
+ 
+ ```c
+ // should create a file called "bbbc"
+ // exit status = 0
+ ```
+
+</details>
 </details>
         
 - AMBIGIOUS REDIRECTION
