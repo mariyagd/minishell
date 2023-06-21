@@ -14,156 +14,130 @@
     ```
     
 - SYNTAX
-    
-    INPUT:
-    
-    ```c
-    >
-    ```
-    
-    OUTPUT:
-    
-    ```c
-    bash: syntax error near unexpected token `newline'
-    
-    echo $?
-    258
-    ```
-    
-    ---
-    
-    ---
-    
-    INPUT:
-    
-    ```c
-    |
-    ```
-    
-    OUTPUT:
-    
-    ```c
-    bash: syntax error near unexpected token `|'
-    
-    echo $?
-    258
-    ```
-    
-    ---
-    
-    ---
-    
-    INPUT:
-    
-    ```c
-    >|<
-    ```
-    
-    OUTPUT: 
-    
-    ```c
-    BASH TRAÎTE ">|" COMME UN OPÉRATEUR 
-    ET RENVOIE MESSAGE D'ERREUR PARCE QU'IL Y A
-    UNE DEUXIÈME OPÉRATEUR À LA SUITE.
-    
-    syntax error near unexpected token `<'
-    
-    echo $?
-    258
-    
-    COMME DANS MINISHELL ON NE TRAITE PAS ">|"
-    LE MESSAGE D'ERREUR QUE J'ENVOIE EST:
-    
-    minishell: syntax error near unexpected token '|'
-    ```
-    
-    ---
-    
-    ---
-    
-    INPUT:
-    
-    ```c
-    >>|<<
-    ```
-    
-    OUTPUT:
-    
-    ```c
-    syntax error near unexpected token `|'
-    
-    echo $?
-    258
-    ```
-    
-    ---
-    
-    ---
-    
-    INPUT:
-    
-    ```c
-    >>>>>>>>>>>|<<<<<<<<<<<
-    ```
-    
-    OUTPUT:
-    
-    ```c
-    syntax error near unexpected token `>>'
-    
-    echo $?
-    258
-    ```
-    
-    ---
-    
-    ---
-    
-    INPUT:
-    
-    ```c
-    ><|
-    ```
-    
-    OUTPUT:
-    
-    ```c
-    syntax error near unexpected token `<'
-    
-    echo $?
-    258
-    ```
-    
-    ---
-    
-    ---
-    
-    INPUT:
-    
-    ```c
-    bash-3.2$ ls << "<" | <
-    
-    ```
-    
-    OUTPUT:
-    
-    ```c
-    >
-    >
-    >
-    >
-    >
-    >
-    > <
-    syntax error near unexpected token `newline'
-    echo $?
-    258
-    ```
-    
-    ---
-    
-    ---
-    
+    - TEST 1:
+        
+        INPUT:
+        
+        ```c
+        >
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        bash: syntax error near unexpected token `newline'
+        
+        // exit status = 258
+        ```
+        
+    - TEST 2:
+        
+        INPUT:
+        
+        ```c
+        |
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        bash: syntax error near unexpected token `|'
+        
+        // exit status =258
+        ```
+        
+    - TEST 3:
+        
+        INPUT:
+        
+        ```c
+        >|<
+        ```
+        
+        OUTPUT: 
+        
+        ```c
+        // bash treats ">|" as on operator
+        // and sends error message because there is a second 
+        // operator "<" whitout key word
+        // This is the error message in bash:
+        
+        syntax error near unexpected token `<'
+        
+        // but in minisehll, we don't treat ">|" as a single operator, 
+        // so we send this error message:
+        
+        minishell: syntax error near unexpected token '|'
+        
+        // in both cases, the exit status is 258
+        ```
+        
+    - TEST 4:
+        
+        INPUT:
+        
+        ```c
+        >>|<<
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        syntax error near unexpected token `|'
+        
+        // exit status = 258
+        ```
+        
+    - TEST 5:
+        
+        INPUT:
+        
+        ```c
+        >>>>>>>>>>>|<<<<<<<<<<<
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        syntax error near unexpected token `>>'
+        
+        // exit status = 258
+        ```
+        
+    - TEST 6:
+        
+        INPUT:
+        
+        ```c
+        ><|
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        syntax error near unexpected token `<'
+        
+        // exit status = 258
+        ```
+        
+    - TEST 7:
+        
+        INPUT:
+        
+        ```c
+        ls << "<" | <
+        
+        ```
+        
+        OUTPUT:
+        
+        ```c
+        syntax error near unexpected token `newline'
+        
+        // here doc is not open
+        // exit status = 258
+        ```
+        
 - PARSING
     - TEST 1: quotes
         
@@ -550,6 +524,8 @@
         >> file
         ```
         
+        or
+        
         ```c
         rm -f file
         > file
@@ -734,7 +710,9 @@
         
         ```c
         < file << eof
+        ```
         
+        ```c
         + ctrl  + c 
         ```
         
@@ -848,7 +826,11 @@
         
         ```c
         > hello$coucou
+        ```
         
+        or
+        
+        ```c
         >> hello$coucou
         ```
         
@@ -1181,7 +1163,11 @@
         
         ```c
         exit 2147483647
+        ```
         
+        or
+        
+        ```c
         exit +2147483647
         ```
         
@@ -1197,7 +1183,11 @@
         
         ```c
         exit 2147483648
+        ```
         
+        or
+        
+        ```c
         exit +2147483648
         ```
         
@@ -1241,7 +1231,11 @@
         
         ```c
         exit 9223372036854775807
+        ```
         
+        or
+        
+        ```c
         exit +9223372036854775807
         ```
         
@@ -1257,7 +1251,11 @@
         
         ```c
         exit 9223372036854775808
+        ```
         
+        or
+        
+        ```c
         exit +9223372036854775808
         ```
         
@@ -1335,9 +1333,17 @@
         
         ```c
         exit 123a4
+        ```
         
+        or
+        
+        ```c
         exit "       123a4        "
+        ```
         
+        or
+        
+        ```c
         exit "       123        a4"
         ```
         
@@ -1382,7 +1388,11 @@
         
         ```c
         exit 54 65 85
+        ```
         
+        or
+        
+        ```c
         exit 54 hello
         ```
         
@@ -1634,6 +1644,9 @@
         
         ```c
         cat | ls
+        ```
+        
+        ```c
         + ctrl + \
         ```
         
@@ -1653,6 +1666,9 @@
         
         ```c
         cat | ls
+        ```
+        
+        ```c
         + ctrl + c
         ```
         
@@ -1717,7 +1733,9 @@
         
         ```c
         cat | ls
+        ```
         
+        ```c
         + ctrl + c or ctrl + \
         ```
         
@@ -1734,7 +1752,9 @@
         
         ```c
         cat | ls
+        ```
         
+        ```c
         + enter
         ```
         
@@ -1751,7 +1771,9 @@
         
         ```c
         cat | cat
+        ```
         
+        ```c
         + ctr + c or + ctrl + \
         ```
         
